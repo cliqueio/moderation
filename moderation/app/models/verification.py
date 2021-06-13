@@ -23,7 +23,7 @@ class CreatorVerificationRequestMixin:
     email = Column(String, unique=True, index=True, nullable=False)
     phone = Column(String, unique=True, index=True, nullable=False)
 
-    created_date = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
     moderated_at = Column(DateTime)
     commentary = Column(String)
 
