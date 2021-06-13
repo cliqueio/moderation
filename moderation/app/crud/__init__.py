@@ -1,1 +1,1 @@
-from .user import user
+from .verification import generic_verification_request, le_verification_request, np_verification_request

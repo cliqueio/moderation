@@ -1,10 +1,11 @@
-from typing import Union, List, Type
+from typing import List, Union
+
 from sqlalchemy.orm import Session
 
 from app.crud.base import CRUDBase
+from app.db import Base
 from app.models import verification as models
 from app.schemas import verification as schemas
-from app.db import Base
 
 
 class CRUDLEVerificationRequest(
@@ -27,16 +28,18 @@ class CRUDNPVerificationRequest(
     ...
 
 
-GenericVerificationRequest = Type[
-    Union[
-        models.LegalEntityCreatorVerificationRequest,
-        models.NaturalPersonCreatorVerificationRequest,
-    ]
+GenericVerificationRequest = Union[
+    models.LegalEntityCreatorVerificationRequest,
+    models.NaturalPersonCreatorVerificationRequest,
 ]
 
-class CRUDVerificationRequest(Base):
-    def __init__(self, model: GenericVerificationRequest):
-        self.model = model
-
+class CRUDVerificationRequest:
     def list(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[GenericVerificationRequest]:
-        return db.query(self.model).offset(skip).limit(limit).order_by(self.model.created_at)
+        le_requests = db.query(models.LegalEntityCreatorVerificationRequest).offset(skip).limit(limit)
+        np_requests = db.query(models.NaturalPersonCreatorVerificationRequest).offset(skip).limit(limit)
+        return le_requests.union(np_requests)
+
+
+le_verification_request = CRUDNPVerificationRequest(models.LegalEntityCreatorVerificationRequest)
+np_verification_request = CRUDNPVerificationRequest(models.NaturalPersonCreatorVerificationRequest)
+generic_verification_request = CRUDVerificationRequest()
