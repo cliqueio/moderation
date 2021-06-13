@@ -15,7 +15,7 @@ class CreatorVerificationRequest(BaseModel):
     created_at: datetime
     moderated_at: Optional[datetime] = None
 
-    commentary: str
+    commentary: Optional[str] = None
 
 
 class NaturalPersonCreatorVerificationRequest(CreatorVerificationRequest):
