@@ -15,10 +15,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
         self.model = model
 
-    def read(self, db: Session, id: Any) -> Optional[ModelType]:
+    def retrieve(self, db: Session, id: Any) -> Optional[ModelType]:
         return db.query(self.model).filter(self.model.id == id).first()
 
-    def read_multi(
+    def list(
             self,
             db: Session,
             *,

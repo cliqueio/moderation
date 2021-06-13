@@ -38,5 +38,5 @@ class CRUDVerificationRequest(Base):
     def __init__(self, model: GenericVerificationRequest):
         self.model = model
 
-    def read_multi(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[GenericVerificationRequest]:
+    def list(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[GenericVerificationRequest]:
         return db.query(self.model).offset(skip).limit(limit).order_by(self.model.created_at)
