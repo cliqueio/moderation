@@ -13,29 +13,31 @@ x-server-tmpl: &server-tmpl
 
 
 services:
-    service:
-        command: bash -c "while !</dev/tcp/db/5432; do sleep 1; done;
-                        alembic upgrade head;
-                        uvicorn app.main:app --reload --host 0.0.0.0"
-        build:
-            context: ./moderation
-            dockerfile: Dockerfile
-        depends_on:
-          - db
-        volumes:
-          - ./moderation:/moderation
-        <<: *server-tmpl
+  service:
+    command: bash -c "while !</dev/tcp/db/5432; do sleep 1; done;
+                  alembic upgrade head;
+                  uvicorn app.main:app --reload --host 0.0.0.0"
+    build:
+      context: ./moderation
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    volumes:
+      - ./moderation:/moderation
+    <<: *server-tmpl
 
-    db:
-      image: postgres:12.4-alpine
-      ports:
-        - 5432:5432
-      <<: *server-tmpl
+  db:
+    image: postgres:12.4-alpine
+    ports:
+      - 5432:5432
+    <<: *server-tmpl
 
-    pgadmin:
-      image: dpage/pgadmin4
-      ports:
-        - 5050:80
-      depends_on:
-        - db
-      <<: *server-tmpl
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    depends_on:
+      - db
+    <<: *server-tmpl
