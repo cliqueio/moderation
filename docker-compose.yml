@@ -1,0 +1,41 @@
+version: '3.7'
+
+x-server-tmpl: &server-tmpl
+  environment:
+    AUTHJWT_SECRET_KEY: 4NLEjhM9yOjbpcdRwShnQeVSSkUu7sjEYS45mvlXCdY
+    POSTGRES_SERVER: db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_DB: test_db
+    DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432
+    PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+    PGADMIN_DEFAULT_PASSWORD: admin
+
+
+services:
+    service:
+        command: bash -c "while !</dev/tcp/db/5432; do sleep 1; done;
+                        alembic upgrade head;
+                        uvicorn app.main:app --reload --host 0.0.0.0"
+        build:
+            context: ./moderation
+            dockerfile: Dockerfile
+        depends_on:
+          - db
+        volumes:
+          - ./moderation:/moderation
+        <<: *server-tmpl
+
+    db:
+      image: postgres:12.4-alpine
+      ports:
+        - 5432:5432
+      <<: *server-tmpl
+
+    pgadmin:
+      image: dpage/pgadmin4
+      ports:
+        - 5050:80
+      depends_on:
+        - db
+      <<: *server-tmpl
