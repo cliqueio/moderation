@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, EmailStr
 
@@ -12,7 +13,7 @@ class CreatorVerificationRequest(BaseModel):
     last_name: str
 
     created_at: datetime
-    moderated_at: datetime
+    moderated_at: Optional[datetime] = None
 
     commentary: str
 
