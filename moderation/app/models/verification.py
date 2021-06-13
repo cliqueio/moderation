@@ -31,10 +31,10 @@ class CreatorVerificationRequestMixin:
 
 
 class NaturalPersonCreatorVerificationRequest(CreatorVerificationRequestMixin, Base):
-    selfie_with_passport = phone = Column(String, unique=True, nullable=False)
-    passport = phone = Column(String, unique=True, nullable=False)
+    selfie_with_passport = Column(String, unique=True, nullable=False)
+    passport = Column(String, unique=True, nullable=False)
 
 
 class LegalEntityCreatorVerificationRequest(CreatorVerificationRequestMixin, Base):
-    registration_certificate = phone = Column(String, unique=True, nullable=False)
-    executive_passport = phone = Column(String, unique=True, nullable=False)
+    registration_certificate = Column(String, unique=True, nullable=False)
+    executive_passport = Column(String, unique=True, nullable=False)
