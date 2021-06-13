@@ -4,7 +4,6 @@ from pydantic import BaseModel, EmailStr
 
 
 class CreatorVerificationRequest(BaseModel):
-    id: int
     user_uuid: str
 
     email: EmailStr
@@ -22,11 +21,23 @@ class NaturalPersonCreatorVerificationRequest(CreatorVerificationRequest):
     selfie_with_passport: str
     passport: str
 
+
+class LegalEntityCreatorVerificationRequest(CreatorVerificationRequest):
+    registration_certificate: str
+    executive_passport: str
+
+
+class NaturalPersonCreatorVerificationRequestDB(CreatorVerificationRequest):
+    id: int
+    selfie_with_passport: str
+    passport: str
+
     class Config:
         orm_mode = True
 
 
-class LegalEntityCreatorVerificationRequest(CreatorVerificationRequest):
+class LegalEntityCreatorVerificationRequestDB(CreatorVerificationRequest):
+    id: int
     registration_certificate: str
     executive_passport: str
 

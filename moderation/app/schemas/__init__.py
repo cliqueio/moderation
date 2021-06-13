@@ -1,1 +1,6 @@
-from .verification import LegalEntityCreatorVerificationRequest, NaturalPersonCreatorVerificationRequest
+from .verification import (
+    LegalEntityCreatorVerificationRequest,
+    LegalEntityCreatorVerificationRequestDB,
+    NaturalPersonCreatorVerificationRequest,
+    NaturalPersonCreatorVerificationRequestDB,
+)
