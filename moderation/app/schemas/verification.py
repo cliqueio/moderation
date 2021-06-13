@@ -5,42 +5,38 @@ from pydantic import BaseModel, EmailStr
 
 
 class CreatorVerificationRequest(BaseModel):
-    user_uuid: str
+    user_uuid: Optional[str] = None
 
-    email: EmailStr
-    phone: str
-    first_name: str
-    last_name: str
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
 
-    created_at: datetime
+    created_at: Optional[datetime] = None
     moderated_at: Optional[datetime] = None
 
     commentary: Optional[str] = None
 
 
 class NaturalPersonCreatorVerificationRequest(CreatorVerificationRequest):
-    selfie_with_passport: str
-    passport: str
+    selfie_with_passport: Optional[str] = None
+    passport: Optional[str] = None
 
 
 class LegalEntityCreatorVerificationRequest(CreatorVerificationRequest):
-    registration_certificate: str
-    executive_passport: str
+    registration_certificate: Optional[str] = None
+    executive_passport: Optional[str] = None
 
 
-class NaturalPersonCreatorVerificationRequestDB(CreatorVerificationRequest):
+class NaturalPersonCreatorVerificationRequestDB(NaturalPersonCreatorVerificationRequest):
     id: int
-    selfie_with_passport: str
-    passport: str
 
     class Config:
         orm_mode = True
 
 
-class LegalEntityCreatorVerificationRequestDB(CreatorVerificationRequest):
+class LegalEntityCreatorVerificationRequestDB(LegalEntityCreatorVerificationRequest):
     id: int
-    registration_certificate: str
-    executive_passport: str
 
     class Config:
         orm_mode = True
