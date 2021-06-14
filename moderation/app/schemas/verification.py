@@ -40,3 +40,11 @@ class LegalEntityCreatorVerificationRequestDB(LegalEntityCreatorVerificationRequ
 
     class Config:
         orm_mode = True
+
+
+class GenericCreatorVerificationRequest(
+    LegalEntityCreatorVerificationRequestDB,
+    NaturalPersonCreatorVerificationRequestDB,
+    CreatorVerificationRequest,
+):
+    ...
