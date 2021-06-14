@@ -6,7 +6,6 @@ from sqlalchemy.sql.functions import user
 
 from app import crud, schemas
 from app.api.dependencies import deps
-from app.schemas.verification import NaturalPersonCreatorVerificationRequestDB
 
 from .errors import VerificationRequestAPIError
 
@@ -15,12 +14,7 @@ router = APIRouter()
 
 @router.get(
     path='/',
-    response_model=List[
-        Union[
-            schemas.LegalEntityCreatorVerificationRequestDB,
-            NaturalPersonCreatorVerificationRequestDB,
-        ]
-    ],
+    response_model=List[schemas.GenericCreatorVerificationRequest],
 )
 async def list_verification_requests(
         db: Session = Depends(deps.get_db),
@@ -28,7 +22,6 @@ async def list_verification_requests(
         limit: int = 100,
 ) -> Any:
     users = crud.generic_verification_request.list(db, skip=skip, limit=limit)
-    print(users)
     return users
 
 
